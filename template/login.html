@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>簽到系統</h1>
+<h3>登入 : </h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form }}
+
+    <input class="btn btn-primary" type="submit" value="確認" />
+    <p>還沒有帳號嗎? <a href="{% url 'check_in:registration' %}">註冊</a></p>
+</form>
+
+{% endblock  %}

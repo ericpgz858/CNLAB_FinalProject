@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="jumbotron mt-3">
+    <h1>Course:</h2>
+    <ul>
+        {% for course in course_list %}
+            <li><a href= {{course.get_absolute_url}}> {{course.name}}</a></li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-lg btn-primary" href="{% url 'check_in:Logout' %}" role="button">登出 &#187;</a>
+</div>
+
+{% endblock  %}
