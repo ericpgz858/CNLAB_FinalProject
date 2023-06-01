@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="title">
+    <div class="title_text">
+        <div style="display: flex;padding-right: 20%;justify-content:space-between">
+            <h1>簽到系統</h1>
+            <div style="padding-top:1.5%;">
+                {% if form1.is_authenticated %}
+                <a class="btn btn-sm btn-info" href= "{% url 'main:home' %}" role="button">回主頁</a>
+		{% if form2.is_student %}
+		<a class="btn btn-sm btn-info" href="{% url 'main:face_build' %}" role="button">建立臉部檔案</a>
+		{% endif %}
+		<a class="btn btn-sm btn-secondary" href="{% url 'main:logout' %}" role="button">登出 &#187;</a>
+		{% else %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">登入 &#187;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="context">
+	<h3 style="color:#08192D;">Profile:</h3>
+<table class="table">
+    <tbody>
+        <tr>
+            <th scope="row">姓名</th>
+            <td>{{ form1.last_name }}{{ form1.first_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">帳號</th>
+            <td>{{ form1.username }}</td>
+        </tr>
+        <tr>
+            <th scope="row">學號</th>
+            <td>{{ form2.student_id }}</td>
+        </tr>
+        <tr>
+            <th scope="row">學系</th>
+            <td>{{ form2.department }}</td>
+        </tr>
+        <tr>
+            <th scope="row">身分</th>
+            {% if form2.is_teacher %}
+                <td>教授</td>
+            {% else %}
+                <td>學生</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <th scope="row">Email</th>
+            <td>{{ form1.email }}</td>
+        </tr>
+    </tbody>
+</table>
+<div style="display:flex;justify-content: space-between;">
+    <h3 style="color:#08192D;">Course:</h3>
+    {% if form3.is_teacher and form2.id == form3.id%}
+    <div style="padding: 5px 0px;">
+        <a class="btn btn-sm btn-info" href="{% url 'main:create_course' %}" role="button">創建課程 &#187;</a>
+    </div>
+    {% endif %}
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">流水號(ID)</th>
+            <th scope="col">課程名稱</th>
+            {% if form3.is_student %}
+                <th scope="col">課程簽到</th>
+            {% endif %}
+            <th scope="col">學生簽到記錄</th>
+            {% if form3.is_teacher %}
+                <th scope="col">下載簽到記錄</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in course_list %}
+        <tr>
+            <th scope="row">{{ course.id }}</th>
+            <td><a href= {{course.get_absolute_url}}> {{course.course_name}}</a></td>
+            {% if form3.is_student %}
+                <td><a href= {{course.get_class_signin_url}}> 簽到</a></td>
+            {% endif %}
+            <td><a href= {{course.get_his_div_url}}> 查看</a></td>
+            {% if form3.is_teacher %}
+                <td><a href= {{course.get_download_csvfile}}> 下載</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock  %}

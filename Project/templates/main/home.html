@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="title">
+    <div class="title_text">
+        <div style="display: flex;padding-right: 20%;justify-content:space-between">
+            <h1>簽到系統</h1>
+            <div style="padding-top:1.5%;">
+                {% if user.is_authenticated %}
+                <a class="btn btn-sm btn-info" href={{profile.get_absolute_url}} role="button">個人檔案</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:logout' %}" role="button">登出 &#187;</a>
+                {% else %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">登入 &#187;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="context">
+<div style="display:flex; justify-content: space-between;padding-right: 12px;">
+	<h3 style="color:#08192D;">課程</h3>
+    <form action="" method="Post">
+        {% csrf_token %}
+        <input class='search' type="number" name="course_id" placeholder="請輸入課程流水號">
+        <input class='search' name="course_name" placeholder="請輸入課程名稱">
+        <input class='search_btn' type="submit" value="查詢">
+    </form>
+</div>
+{% if error %}
+    <script>
+      alert("課程不存在");
+    </script>
+{% endif %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">流水號(ID)</th>
+            <th scope="col">課程名稱</th>
+            <th scope="col">課程簽到</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in course_list %}
+        <tr>
+            <th scope="row">{{ course.id }}</th>
+            <td><a href= {{course.get_absolute_url}}> {{course.course_name}}</a></td>
+            <td><a href= {{course.get_class_signin_url}}> 簽到</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock  %}

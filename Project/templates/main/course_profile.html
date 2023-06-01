@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="title">
+<div class="title_text">
+    <div style="display: flex;padding-right: 20%;justify-content:space-between">
+        <h1>簽到系統</h1>
+        <div style="padding-top:1.5%;">
+            {% if user.is_authenticated %}
+            <a class="btn btn-sm btn-info" href= "{% url 'main:home' %}" role="button">回主頁</a>
+            <a class="btn btn-sm btn-secondary" href="{% url 'main:logout' %}" role="button">登出 &#187;</a>
+            {% else %}
+            <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">登入 &#187;</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+<div class="context">
+<center><h2 style="color:#08192D;">{{course.course_name}}</h2></center>
+<table class="table">
+    <tbody>
+        <tr>
+            <th scope="row">上課時間</th>
+            <td>{{course.start_date}}</td>
+        </tr>
+        <tr>
+            <th scope="row">上課地點</th>
+            <td>{{course.course_address}}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>Teacher List:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">流水號(ID)</th>
+            <th scope="col">教師</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in teachers %}
+        <tr>
+            <th scope="row">{{ t.User.id }}</th>
+            <td><a href= {{t.Profile.get_absolute_url}}> {{t.User.last_name}}{{t.User.first_name}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h3>Student List:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">流水號(ID)</th>
+            <th scope="col">學生</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in students %}
+        <tr>
+            <th scope="row">{{ s.User.id }}</th>
+            <td><a href= {{s.Profile.get_absolute_url}}> {{s.User.last_name}}{{s.User.first_name}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock  %}

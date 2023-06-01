@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="title">
+    <div class="title_text">
+        <div style="display: flex;padding-right: 20%;justify-content:space-between">
+            <h1>簽到系統</h1>
+            <div style="padding-right: 0%;padding-top: 1%;">
+                {% if user.is_authenticated %}
+                <a class="btn btn-sm btn-info" href= "{% url 'main:home' %}" role="button">回主頁</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:logout' %}" role="button">登出 &#187;</a>
+                {% else %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">登入 &#187;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="context">
+<center><h3>{{course.course_name}}</h3></center>
+<h3>Student List:</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">流水號(ID)</th>
+            <th scope="col">學生</th>
+            <th scope="col">學生簽到記錄</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dict in output_list %}
+        <tr>
+            <th scope="row">{{ dict.student.id }}</th>
+            <td><a href= {{dict.stu_profile.get_absolute_url}}> {{dict.student.last_name}}{{dict.student.first_name}}</a></td>
+            <td><a href= {{dict.hist_url}}> 查看</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock  %}

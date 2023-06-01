@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %} My store {% endblock %}
+{% block content%}
+{% if error == 1%}
+    <script>
+      alert("課程建立成功");
+    </script>
+{% elif error == 2 %}
+  <script>
+    alert('學生不在資料庫裡');
+  </script>
+{% elif error == 3 %}
+  <script>
+    alert("檔案格式錯誤");
+  </script>
+{% endif %}
+<div class="title">
+  <div class="title_text">
+    <div style="display: flex;padding-right: 20%;justify-content:space-between">
+      <h1>簽到系統</h1>
+      <div style="padding-right: 0%;padding-top: 1%;">
+          {% if user.is_authenticated %}
+          <a class="btn btn-sm btn-info" href= "{% url 'main:home' %}" role="button">回主頁</a>
+          <a class="btn btn-sm btn-secondary" href="{% url 'main:logout' %}" role="button">登出 &#187;</a>
+          {% else %}
+          <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">登入 &#187;</a>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="reg_form">
+<h2> Course Create</h2>
+<form method='POST' enctype="multipart/form-data">
+  {% csrf_token %} 
+  {{ form.as_p }}
+<input class="btn btn-success" type="submit" value="建立課程" />
+</form>
+</div>
+{% endblock %}

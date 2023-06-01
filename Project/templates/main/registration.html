@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="title">
+    <div class="title_text">
+        <div style="display: flex;padding-right: 20%;justify-content:space-between">
+            <h1>簽到系統</h1>
+            <div style="padding-right: 0%;padding-top: 1%;">
+                <a class="btn btn-sm btn-info" href= "{% url 'main:home' %}" role="button">回主頁</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">帳號登入</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="reg_form">
+<center><h2>註冊</h2></center>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form }}
+
+    <br />
+    <input class="btn btn-success" type="submit" value="註冊" />
+</form>
+</div>
+{% endblock  %}

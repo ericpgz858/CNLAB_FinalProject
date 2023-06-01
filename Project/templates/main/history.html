@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="title">
+    <div class="title_text">
+        <div style="display: flex;padding-right: 20%;justify-content:space-between">
+            <h1>簽到系統</h1>
+            <div style="padding-right: 0%;padding-top: 1%;">
+                {% if user.is_authenticated %}
+                <a class="btn btn-sm btn-info" href= "{% url 'main:home' %}" role="button">回主頁</a>
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:logout' %}" role="button">登出 &#187;</a>
+                {% else %}
+                <a class="btn btn-sm btn-secondary" href="{% url 'main:login' %}" role="button">登入 &#187;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="context">
+<h3>Profile</h3>
+<table class="table">
+    <tbody>
+        <tr>
+            <th scope="row">姓名</th>
+            <td>{{ student.last_name }}{{ student.first_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">帳號</th>
+            <td>{{ student.username }}</td>
+        </tr>
+        <tr>
+            <th scope="row">學號</th>
+            <td>{{ student_profile.student_id }}</td>
+        </tr>
+        <tr>
+            <th scope="row">學系</th>
+            <td>{{ student_profile.department }}</td>
+        </tr>
+        <tr>
+            <th scope="row">身分</th>
+            {% if student_profile.is_teacher %}
+                <td>教授</td>
+            {% else %}
+                <td>學生</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <th scope="row">Email</th>
+            <td>{{ student.email }}</td>
+        </tr>
+    </tbody>
+</table>
+<h3>{{course.course_name}}({{course.id}}) 簽到記錄: </h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">日期</th>
+            <th scope="col">是否簽到</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for day in final_list %}
+        <tr>
+            <th scope="row">{{ day.date }}</th>
+            <td>{{ day.sign }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock  %}
